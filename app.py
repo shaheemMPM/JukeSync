@@ -1,12 +1,15 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO
+import pygame
 
-app = Flask(__name__)
-socketio = SocketIO(app)
+# Initialize the pygame mixer
+pygame.mixer.init()
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Load the audio file
+audio_file_path = '1.mp3'  # Replace with your audio file path
+pygame.mixer.music.load(audio_file_path)
 
-if __name__ == '__main__':
-    socketio.run(app, debug=True)
+# Play the audio
+pygame.mixer.music.play()
+
+# Keep the program running to allow audio to play
+while pygame.mixer.music.get_busy():
+    pass

@@ -1,5 +1,1 @@
-flask
-opencv-python
-flask-socketio 
-opencv-python-headless 
-eventlet
+pygame

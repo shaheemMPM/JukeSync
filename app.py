@@ -1,15 +1,21 @@
 import pygame
+import requests
 
-# Initialize the pygame mixer
 pygame.mixer.init()
 
-# Load the audio file
-audio_file_path = '1.mp3'  # Replace with your audio file path
-pygame.mixer.music.load(audio_file_path)
+api_base_url = 'http://127.0.0.1:5000/'
+response = requests.get(api_base_url)
 
-# Play the audio
-pygame.mixer.music.play()
+if response.status_code == 200:
+	file_from_api = response.text.strip()
 
-# Keep the program running to allow audio to play
-while pygame.mixer.music.get_busy():
-    pass
+	audio_file_path = f'./audios/{file_from_api}.mp3'
+	pygame.mixer.music.load(audio_file_path)
+
+	pygame.mixer.music.play()
+
+	while pygame.mixer.music.get_busy():
+		pass
+
+else:
+    print("Failed to retrieve file name from the API.")

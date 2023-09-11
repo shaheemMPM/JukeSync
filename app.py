@@ -1,21 +1,27 @@
 import pygame
 import requests
+import time
 
 pygame.mixer.init()
 
 api_base_url = 'http://127.0.0.1:5000/'
-response = requests.get(api_base_url)
 
-if response.status_code == 200:
-	file_from_api = response.text.strip()
+while True:
+	response = requests.get(api_base_url)
 
-	audio_file_path = f'./audios/{file_from_api}.mp3'
-	pygame.mixer.music.load(audio_file_path)
+	if response.status_code == 200:
+		file_from_api = response.text.strip()
 
-	pygame.mixer.music.play()
+		audio_file_path = f'./audios/{file_from_api}.mp3'
+		pygame.mixer.music.load(audio_file_path)
 
-	while pygame.mixer.music.get_busy():
-		pass
+		pygame.mixer.music.play()
 
-else:
-    print("Failed to retrieve file name from the API.")
+		while pygame.mixer.music.get_busy():
+			pass
+
+	else:
+		print("Failed to retrieve file name from the API.")
+
+	# Add a delay before making the next request
+	time.sleep(5)  # Adjust the delay as needed

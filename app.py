@@ -1,4 +1,4 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, send_file
 import os
 
 app = Flask(__name__)
@@ -6,11 +6,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return 'hello world'
+	return send_file('index.html')
 
 @app.route('/video')
 def video():
-	video_path = '1.mp4'  # Adjust the path to your video file
+	video_path = 'combined_video.mp4'  # Adjust the path to your video file
 	chunk_size = 1024 * 1024  # 1 MB (adjust as needed)
 
 	# Check if the video file exists
@@ -33,6 +33,7 @@ def video():
 	except ValueError:
 		return "Invalid range values", 400
 	
+	# Validate range values
 	if start < 0 or start >= video_size or end < start or end >= video_size:
 		return "Invalid range values", 400
 
